@@ -1,0 +1,49 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Blog {
+  id         String     @id @default(cuid())
+  username   String     @unique
+  password   String
+  categories Category[]
+  pages      Page[]
+  posts      Post[]
+}
+
+model Category {
+  id     String @default(cuid())
+  blogId String
+  title  String
+  blog   Blog   @relation(fields: [blogId], references: [id])
+  Post   Post[]
+
+  @@id([id, blogId])
+}
+
+model Post {
+  id         String   @default(cuid())
+  blogId     String
+  categoryId String
+  title      String
+  content    String
+  blog       Blog     @relation(fields: [blogId], references: [id])
+  category   Category @relation(fields: [categoryId, blogId], references: [id, blogId])
+
+  @@id([id, blogId])
+}
+
+model Page {
+  id      String @default(cuid())
+  blogId  String
+  title   String
+  content String
+  blog    Blog   @relation(fields: [blogId], references: [id])
+
+  @@id([id, blogId])
+}

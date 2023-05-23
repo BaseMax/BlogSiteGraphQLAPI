@@ -1,0 +1,48 @@
+
+version: "3.6"
+services:
+    app:
+        build:
+            context: .
+            target: development
+        depends_on:
+            - db
+
+        volumes:
+            - ./src:/app/src
+            - ./prisma:/app/prisma
+        ports:
+            - 3000:3000
+        environment:
+            - DATABASE_URL=mysql://root:example@db:3306/dev
+            - NODE_ENV=development
+            - SECRET=secret
+
+    db:
+       image: mysql
+       # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+       # (this is just an example, not intended to be a production configuration)
+       command: --default-authentication-plugin=mysql_native_password
+       restart: always
+       ports:
+           - 3306:3306
+       environment:
+         MYSQL_ROOT_PASSWORD: example
+         MYSQL_DATABASE: dev
+    migratedb:
+        image: app:latest
+        command:
+            [
+                "./wait-for-it/wait-for-it.sh",
+                "db:5432",
+                "--",
+                "npx",
+                "prisma",
+                "migrate",
+                "deploy",
+            ]
+        environment:
+            - DATABASE_URL=mysql://root:example@db:3306/dev
+        build:
+            context: .
+            target: development
