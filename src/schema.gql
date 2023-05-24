@@ -8,5 +8,5 @@ type Blog {
 }
 
 type Query {
-  user: Blog!
+  blog: Blog!
 }

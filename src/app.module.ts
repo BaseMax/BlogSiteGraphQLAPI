@@ -9,6 +9,7 @@ import { BlogsModule } from './modules/blogs/blogs.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { CurrentBlogModule } from './current-blog/current-blog.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ConfigModule } from '@nestjs/config';
     BlogsModule,
     PrismaModule,
     AuthModule,
+    CurrentBlogModule,
   ],
   controllers: [AppController],
   providers: [AppService],

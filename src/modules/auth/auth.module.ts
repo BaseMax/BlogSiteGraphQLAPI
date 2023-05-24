@@ -6,7 +6,6 @@ import { BlogsModule } from '../blogs/blogs.module';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { AuthGuard } from './auth.guard';
-import { AuthResolver } from './auth.resolver';
 
 @Global()
 @Module({
@@ -22,7 +21,7 @@ import { AuthResolver } from './auth.resolver';
       inject: [ConfigService],
     }),
   ],
-  providers: [AuthService, AuthController, AuthGuard, AuthResolver],
+  providers: [AuthService, AuthController, AuthGuard],
   controllers: [AuthController],
   exports: [
     BlogsModule,

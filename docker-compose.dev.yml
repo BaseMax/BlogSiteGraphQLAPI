@@ -11,6 +11,14 @@ services:
         volumes:
             - ./src:/app/src
             - ./prisma:/app/prisma
+        command:
+          [
+            "./wait-for-it/wait-for-it.sh",
+            "db:5432",
+            "--",
+            "yarn",
+            "start:dev",
+          ]
         ports:
             - 3000:3000
         environment:
@@ -29,6 +37,7 @@ services:
        environment:
          MYSQL_ROOT_PASSWORD: example
          MYSQL_DATABASE: dev
+         MYSQL_ROOT_HOST: '%' 
     migratedb:
         image: app:latest
         command:
