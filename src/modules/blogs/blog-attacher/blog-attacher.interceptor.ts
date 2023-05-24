@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   CallHandler,
   ExecutionContext,
   Injectable,
@@ -20,6 +21,8 @@ export class BlogAttacherInterceptor implements NestInterceptor {
     if (blogId) {
       const blog = await this.service.getByIdOrFail(blogId);
       req.blog = blog;
+    } else {
+      throw new BadRequestException("blog id header missing")
     }
     return next.handle();
   }

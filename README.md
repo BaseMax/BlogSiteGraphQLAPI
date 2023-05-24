@@ -1,194 +1,317 @@
-# LinkShortenerGraphQL
+# Blog Site GraphQL API
 
-LinkShortenerGraphQL is a simple URL shortener service that uses GraphQL and NestJS to provide a fast and scalable API for shortening and managing URLs. The project is based on the popular nestjs/graphql package and leverages the power of GraphQL to provide a flexible and efficient API for creating, reading, updating, and deleting shortened URLs.
-![tests](https://github.com/BaseMax/LinkShortenerGraphQL/assets/51885828/2e63e815-e7f3-4181-814a-81b3e606ecea)
-![apollo-sandbox](https://github.com/BaseMax/LinkShortenerGraphQL/assets/51885828/8dc783a3-df47-47d2-9937-27f1af943e5a)
+This project is a GraphQL API built with NestJS and TypeScript. It provides a backend for a blog site, allowing users to register, create and manage blog posts, manage categories, and create pages. It also supports authentication using JWT tokens.
 
+## Prerequisites
 
+Before running this project, make sure you have the following installed:
+
+- Node.js
+- npm (Node Package Manager)
+- MongoDB
 
 ## Features
 
-- Shorten URLs using a custom short link or a randomly generated one
-- Retrieve a shortened URL's full link by providing its ID
-- Update a shortened URL's properties, such as its short link or expiration date
-- Delete a shortened URL by providing its ID
-- Secure API using JWT authentication
+- Register and create a new blog
+- Login
+- Get all posts + pagination + filter/search
+- Get all pages + pagination + filter/search
+- Get all categories + pagination + filter/search
+- Get all posts in a category + pagination + filter/search
+- Create a new post
+- Create a new page
+- Create a new category
+- Edit a post
+- Edit a page
+- Edit a category
 
-## GraphQL API documentation
+## Installation
 
-| Query                                                      | Description                                          |
-| ---------------------------------------------------------- | ---------------------------------------------------- |
-| `getShortUrlById(id: ID!)`                                 | Get a shortened URL by its ID                        |
-| `getShortUrlByShortLink(shortLink: ID!)`                    | Get a shortened URL by its short link                |
-| `user`                                                     | Get the authenticated user's information             |
-| `createShortUrl(input: CreateShortUrlInput!)`              | Create a new shortened URL                           |
-| `updateShortUrl(input: UpdateShortUrlInput!)`              | Update an existing shortened URL                     |
-| `deleteShortUrl(id: ID!)`                                  | Delete a shortened URL by its ID                      |
-| `register(input: RegisterUserInput!)`                      | Register a new user                                  |
-| `login(input: LoginUserInput!)`                            | Authenticate a user and generate a JWT token         |
+Clone the repository:
 
-| Mutation                                                   | Description                                          |
-| ---------------------------------------------------------- | ---------------------------------------------------- |
-| `createShortUrl(input: CreateShortUrlInput!)`              | Create a new shortened URL                           |
-| `updateShortUrl(input: UpdateShortUrlInput!)`              | Update an existing shortened URL                     |
-| `deleteShortUrl(id: ID!)`                                  | Delete a shortened URL by its ID                      |
-| `register(input: RegisterUserInput!)`                      | Register a new user                                  |
-| `login(input: LoginUserInput!)`                            | Authenticate a user and generate a JWT token         |
-
-Here are some examples of queries and mutations in GraphQL syntax for the LinkShortenerGraphQL API:
-
-
-#### Getting started
-clone the repository:
 ```bash
-git clone https://github.com/BaseMax/LinkShortenerGraphQL
+git clone https://github.com/BaseMax/BlogSiteGraphQLAPI
 ```
 
-To start the development environment, run the following command:
-```bash 
-docker-compose -f docker-compose.dev.yml up
+Install dependencies:
 
+```bash
+cd BlogSiteGraphQLAPI
+npm install
 ```
 
+Set up environment variables:
 
-To run the e2e tests use :
-```bash 
-docker-compose -f docker-compose.test.yml up
+Create a `.env` file in the project root.
+
+Add the following variables to the .env file:
+
+```env
+PORT=3000
+MONGODB_URI=mongodb://localhost:27017/blogsite
+JWT_SECRET=yoursecretkey
 ```
+
+Make sure to replace yoursecretkey with your desired JWT secret key.
 
 ## Usage
 
-1. Get user information:
+Start the server:
 
-```gql
-query {
-  user {
-    id
-    firstName
-    lastName
-    email
-  }
+```bash
+npm run start
+```
+
+Open your browser and navigate to http://localhost:3000/graphql to access the GraphQL playground.
+
+Register a new user:
+
+Send a POST request to `/auth/register` with the following JSON payload:
+
+```json
+{
+  "username": "yourusername",
+  "password": "yourpassword"
 }
 ```
 
-2. Get a short URL by ID:
+Replace yourusername and yourpassword with your desired username and password.
 
-```gql
-query {
-  getShortUrlById(id: "123") {
-    id
-    fullLink
-    shortLink
-    user {
-      id
-      firstName
-      lastName
-      email
-    }
-    createdAt
-    updatedAt
-  }
-}
-````
+Login and generate a JWT token:
 
-3. Create a new short URL:
+Send a POST request to `/auth/login` with the following JSON payload:
 
-```gql
-mutation {
-  createShortUrl(input: {
-    fullLink: "https://www.example.com/long/link/to/page"
-  }) {
-    id
-    fullLink
-    shortLink
-    user {
-      id
-      firstName
-      lastName
-      email
-    }
-    createdAt
-    updatedAt
-  }
+```json
+{
+  "username": "yourusername",
+  "password": "yourpassword"
 }
 ```
 
+Replace yourusername and yourpassword with your registered username and password.
 
+The response will include a JWT token that you can use for authentication in subsequent requests.
 
-4. Update an existing short URL:
+Explore the GraphQL API:
 
-```gql
-mutation {
-  updateShortUrl(input: {
-    id: "123"
-    fullLink: "https://www.example.com/new/long/link/to/page"
-  }) {
-    id
-    fullLink
-    shortLink
-    user {
-      id
-      firstName
-      lastName
-      email
-    }
-    createdAt
-    updatedAt
-  }
-}
-```
+Use the GraphQL playground to execute queries and mutations. Here are some examples:
 
-To use the API, you can use any GraphQL client, such as Altair GraphQL Client. Here are some example queries and mutations that you can use:
-
-Create a shortened URL:
-
-```graphql
-mutation {
-  createShortUrl(fullLink: "https://www.google.com", shortLink: "google") {
-    id
-    fullLink
-    shortLink
-  }
-}
-```
-Get a shortened URL by ID
+Query to get all categories:
 
 ```graphql
 query {
-  getShortUrlById(id: "1") {
+  categories {
     id
-    fullLink
-    shortLink
+    name
   }
 }
 ```
 
-Update a shortened URL
+Query to get all posts:
 
 ```graphql
-mutation {
-  updateShortUrl(id: "1", shortLink: "newlink") {
+query {
+  posts {
     id
-    fullLink
-    shortLink
+    title
+    content
+    category {
+      id
+      name
+    }
   }
 }
 ```
 
-Delete a shortened URL
+Mutation to create a new post:
 
 ```graphql
 mutation {
-  deleteShortUrl(id: "1")
+  createPost(
+    input: {
+      title: "My First Post"
+      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      categoryId: "categoryid"
+    }
+  ) {
+    id
+    title
+    content
+  }
 }
 ```
 
-For a complete list of available queries and mutations, see the GraphQL schema file in the src directory.
+Mutation to edit an existing post:
 
-## Contributing
+```graphql
+mutation {
+  editPost(
+    id: "postid"
+    input: {
+      title: "Updated Post"
+      content: "New content for the post."
+      categoryId: "categoryid"
+    }
+  ) {
+    id
+    title
+    content
+  }
+}
+```
 
-Contributions to the project are welcome! To contribute, follow these steps:
+Mutation to delete a post:
+
+```graphql
+mutation {
+  deletePost(id: "postid") {
+    id
+    title
+  }
+}
+```
+
+Query to search for posts by title or content:
+
+```graphql
+query {
+  searchPosts(query: "searchterm") {
+    id
+    title
+    content
+  }
+}
+```
+
+Query to get paginated posts within a category:
+
+```graphql
+query {
+  category(id: "categoryid") {
+    id
+    name
+    posts(page: 1, limit: 10) {
+      totalCount
+      totalPages
+      currentPage
+      posts {
+        id
+        title
+        content
+      }
+    }
+  }
+}
+```
+
+Mutation to create a new page:
+
+```graphql
+mutation {
+  createPage(
+    input: {
+      title: "About Us"
+      content: "This is the About Us page."
+    }
+  ) {
+    id
+    title
+    content
+  }
+}
+```
+
+Mutation to edit an existing page:
+
+```graphql
+mutation {
+  editPage(
+    id: "pageid"
+    input: {
+      title: "Updated About Us"
+      content: "New content for the About Us page."
+    }
+  ) {
+    id
+    title
+    content
+  }
+}
+```
+
+Query to get all pages:
+
+```graphql
+query {
+  pages {
+    id
+    title
+    content
+  }
+}
+```
+
+Structure:
+
+```graphql
+type Query {
+  register(username: String!, password: String!): User
+  login(username: String!, password: String!): Token
+}
+
+type Mutation {
+  createPost(input: CreatePostInput!): Post
+}
+
+type User {
+  id: ID!
+  username: String!
+}
+
+type Token {
+  accessToken: String!
+}
+
+type Post {
+  id: ID!
+  title: String!
+  content: String!
+  category: Category!
+}
+
+type Category {
+  id: ID!
+  name: String!
+}
+
+input CreatePostInput {
+  title: String!
+  content: String!
+  categoryId: ID!
+}
+```
+
+Register a new user:
+
+```graphql
+mutation {
+  register(username: "yourusername", password: "yourpassword") {
+    id
+    username
+  }
+}
+```
+
+Login and generate a JWT token:
+
+```graphql
+query {
+  login(username: "yourusername", password: "yourpassword") {
+    accessToken
+  }
+}
+```
 
 ## License
 
-This project is licensed under the GPL-3.0 license. See the LICENSE file for more details.
+This project is licensed under the GPL-3.0 License.
