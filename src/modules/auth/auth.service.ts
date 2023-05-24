@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { BlogsService } from '../blogs/blogs.service';
-import { RegisterUserInput } from './dto/register.input';
+import { RegisterUserInputDto } from './dto/register.input';
 import * as argon2 from 'argon2';
 import { Blog } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
@@ -10,12 +10,12 @@ import { LoginUserInput } from './dto/login.input';
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: BlogsService,
+    private blogsService: BlogsService,
     private prisma: PrismaService,
     private jwt: JwtService,
   ) { }
-  async register(input: RegisterUserInput) {
-    const userExists = await this.usersService.getByUsername(input.);
+  async register(input: RegisterUserInputDto) {
+    const userExists = await this.blogsService.getByUsername(input.username);
     if (userExists) {
       throw new BadRequestException('user exists');
     }
@@ -25,6 +25,7 @@ export class AuthService {
       data: {
         ...input,
         password: hashedPassword,
+        isAdmin: false
       },
     });
 
@@ -36,17 +37,19 @@ export class AuthService {
   }
 
   async login(input: LoginUserInput) {
-    const user = await this.usersService.getUserByEmail(input.email);
+    const user = await this.blogsService.getByUsername(input.username);
     if (!user || !(await argon2.verify(user.password, input.password))) {
-      throw new BadRequestException('invalid email or password');
+      throw new BadRequestException('invalid username or password');
     }
     return {
       user,
       token: this.getToken(user),
     };
   }
+
   getToken(blog: Blog) {
     const token = this.jwt.sign({
+      isAdmin: blog.isAdmin,
       username: blog.username,
       id: blog.id,
     });

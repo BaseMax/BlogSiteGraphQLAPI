@@ -2,15 +2,16 @@ import { Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PrismaModule } from 'src/prisma/prisma.module';
-import { UsersModule } from '../users/users.module';
+import { BlogsModule } from '../blogs/blogs.module';
 import { AuthService } from './auth.service';
-import { AuthResolver } from './auth.resolver';
+import { AuthController } from './auth.controller';
 import { AuthGuard } from './auth.guard';
+import { AuthResolver } from './auth.resolver';
 
 @Global()
 @Module({
   imports: [
-    UsersModule,
+    BlogsModule,
     PrismaModule,
     JwtModule.registerAsync({
       useFactory: (config: ConfigService) => ({
@@ -21,9 +22,10 @@ import { AuthGuard } from './auth.guard';
       inject: [ConfigService],
     }),
   ],
-  providers: [AuthService, AuthResolver, AuthGuard],
+  providers: [AuthService, AuthController, AuthGuard, AuthResolver],
+  controllers: [AuthController],
   exports: [
-    UsersModule,
+    BlogsModule,
     AuthGuard,
     JwtModule.registerAsync({
       useFactory: (config: ConfigService) => ({
@@ -35,4 +37,4 @@ import { AuthGuard } from './auth.guard';
     }),
   ],
 })
-export class AuthModule {}
+export class AuthModule { }

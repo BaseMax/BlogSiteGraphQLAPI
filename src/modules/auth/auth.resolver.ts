@@ -1,53 +1,19 @@
 import { UseGuards } from '@nestjs/common';
-import {
-  Args,
-  Context,
-  GqlExecutionContext,
-  Mutation,
-  Query,
-  Resolver,
-} from '@nestjs/graphql';
-import { User } from '../users/user.model';
-import { UsersService } from '../users/users.service';
+import { Query, Resolver } from '@nestjs/graphql';
+import { Blog } from '../blogs/blog.model';
+import { BlogsService } from '../blogs/blogs.service';
 import { AuthGuard } from './auth.guard';
-import { AuthService } from './auth.service';
-import { AuthPayload } from './dto/auth-payload.model';
-import { LoginUserInput } from './dto/login.input';
-import { RegisterUserInput } from './dto/register.input';
-import { UserId } from './userId.decorator';
+import { UserDec } from './userId.decorator';
 
 @Resolver()
 export class AuthResolver {
   constructor(
-    private service: AuthService,
-    private usersService: UsersService,
+    private blogsService: BlogsService,
   ) { }
-
-  @Mutation(() => AuthPayload)
-  async register(
-    @Context() ctx: any,
-    @Args({ name: 'input', type: () => RegisterUserInput })
-    input: RegisterUserInput,
-  ) {
-    const { token, user } = await this.service.register(input);
-    ctx.req.userId = user.id;
-    return { token, user };
-  }
-
-  @Mutation(() => AuthPayload)
-  async login(
-    @Context() ctx: any,
-    @Args({ name: 'input', type: () => LoginUserInput })
-    input: LoginUserInput,
-  ) {
-    const { token, user } = await this.service.login(input);
-    ctx.req.userId = user.id;
-    return { token, user };
-  }
-
   @UseGuards(AuthGuard)
-  @Query(() => User)
-  async user(@UserId() userId: string) {
-    return this.usersService.getUserById(userId);
+  @Query(() => Blog)
+  async user(@UserDec() userId: string) {
+    const { password: _password, ...data } = (await this.blogsService.getByUsername(userId))!;
+    return data;
   }
 }

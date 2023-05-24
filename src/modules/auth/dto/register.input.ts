@@ -5,15 +5,8 @@ import {
 } from 'class-validator';
 
 export class RegisterUserInputDto {
-  @IsEmail()
-  email: string;
-
-  @Length(3, 40)
-  firstName: string;
-
-  @Length(2, 40)
-  lastName: string;
-
+  @Length(3, 20)
+  username: string;
   @Matches(
     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])[\da-zA-Z!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,}$/,
   )

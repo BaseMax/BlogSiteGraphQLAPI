@@ -11,6 +11,7 @@ model Blog {
   id         String     @id @default(cuid())
   username   String     @unique
   password   String
+  isAdmin    Boolean
   categories Category[]
   pages      Page[]
   posts      Post[]
