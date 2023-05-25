@@ -11,6 +11,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { CurrentBlogModule } from './current-blog/current-blog.module';
 import { CategoriesModule } from './modules/categories/categories.module';
+import { PagesModule } from './modules/pages/pages.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { CategoriesModule } from './modules/categories/categories.module';
     AuthModule,
     CurrentBlogModule,
     CategoriesModule,
+    PagesModule
   ],
   controllers: [AppController],
   providers: [AppService],

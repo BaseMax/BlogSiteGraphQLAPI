@@ -17,13 +17,32 @@ type PaginatedCategories {
   data: [Category!]!
 }
 
+type Page {
+  id: String!
+  title: String!
+  content: String!
+}
+
+type PaginatedPages {
+  total: Int!
+  data: [Page!]!
+}
+
 type Query {
   blog: Blog!
   category(id: String!): Category!
   categories(input: SearchCategoryInput!): PaginatedCategories!
+  page(id: String!): Page!
+  pages(input: SearchPageInput!): PaginatedPages!
 }
 
 input SearchCategoryInput {
+  limit: Int! = 16
+  skip: Int! = 0
+  text: String
+}
+
+input SearchPageInput {
   limit: Int! = 16
   skip: Int! = 0
   text: String
@@ -33,6 +52,9 @@ type Mutation {
   createCategory(input: CreateCategoryInput!): Category!
   deleteCategory(id: String!): Boolean!
   updateCategory(input: UpdateCategoryInput!): Boolean!
+  createPage(input: CreatePageInput!): Page!
+  deletePage(id: String!): Boolean!
+  updatePage(input: UpdatePageInput!): Boolean!
 }
 
 input CreateCategoryInput {
@@ -41,5 +63,16 @@ input CreateCategoryInput {
 
 input UpdateCategoryInput {
   title: String!
+  id: String!
+}
+
+input CreatePageInput {
+  title: String!
+  content: String!
+}
+
+input UpdatePageInput {
+  title: String
+  content: String
   id: String!
 }

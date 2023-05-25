@@ -39,6 +39,7 @@ model Post {
   category   Category @relation(fields: [categoryId, blogId], references: [id, blogId])
 
   @@id([id, blogId])
+  @@fulltext([content, title])
 }
 
 model Page {
@@ -49,4 +50,5 @@ model Page {
   blog    Blog   @relation(fields: [blogId], references: [id])
 
   @@id([id, blogId])
+  @@fulltext([content, title])
 }
