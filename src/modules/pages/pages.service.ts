@@ -15,7 +15,7 @@ export class PagesService {
 
   async update(input: UpdatePageInput) {
     await this.findByIdOrFail(input.id);
-    await this.prisma.page.update({
+    return this.prisma.page.update({
       where: {
         id_blogId: this.locateId(input.id)
       },

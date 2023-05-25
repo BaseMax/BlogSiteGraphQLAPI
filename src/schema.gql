@@ -51,10 +51,10 @@ input SearchPageInput {
 type Mutation {
   createCategory(input: CreateCategoryInput!): Category!
   deleteCategory(id: String!): Boolean!
-  updateCategory(input: UpdateCategoryInput!): Boolean!
+  updateCategory(input: UpdateCategoryInput!): Category!
   createPage(input: CreatePageInput!): Page!
   deletePage(id: String!): Boolean!
-  updatePage(input: UpdatePageInput!): Boolean!
+  updatePage(input: UpdatePageInput!): Page!
 }
 
 input CreateCategoryInput {

@@ -15,7 +15,7 @@ export class CategoriesService {
 
   async update(input: UpdateCategoryInput) {
     await this.findByIdOrFail(input.id);
-    await this.prisma.category.update({
+    return await this.prisma.category.update({
       where: {
         id_blogId: this.locateId(input.id)
       },

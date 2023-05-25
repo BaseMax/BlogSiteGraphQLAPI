@@ -26,10 +26,9 @@ export class PagesResolver {
     return true;
   }
   @UseGuards(AuthGuard, WriteGuard)
-  @Mutation(() => Boolean)
+  @Mutation(() => Page)
   public async updatePage(@Args('input') input: UpdatePageInput) {
-    await this.service.update(input);
-    return true;
+    return this.service.update(input);
   }
   @Query(() => Page)
   public async page(@Args("id") id: string) {

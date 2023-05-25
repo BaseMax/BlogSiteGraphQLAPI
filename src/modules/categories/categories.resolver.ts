@@ -26,10 +26,9 @@ export class CategoriesResolver {
     return true;
   }
   @UseGuards(AuthGuard, WriteGuard)
-  @Mutation(() => Boolean)
+  @Mutation(() => Category)
   public async updateCategory(@Args('input') input: UpdateCategoryInput) {
-    await this.service.update(input);
-    return true;
+    return await this.service.update(input);
   }
   @Query(() => Category)
   public async category(@Args("id") id: string) {
