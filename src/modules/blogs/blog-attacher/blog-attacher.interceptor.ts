@@ -1,21 +1,18 @@
 import {
   BadRequestException,
   CallHandler,
+  CanActivate,
   ExecutionContext,
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { Observable } from 'rxjs';
 import { BlogsService } from '../blogs.service';
 
 @Injectable()
-export class BlogAttacherInterceptor implements NestInterceptor {
+export class BlogAttacherInterceptor implements CanActivate {
   constructor(private service: BlogsService) { }
-  async intercept(
-    context: ExecutionContext,
-    next: CallHandler,
-  ): Promise<Observable<any>> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = GqlExecutionContext.create(context).getContext().req;
     const blogId = req.headers.blogid;
     if (blogId) {
@@ -24,6 +21,7 @@ export class BlogAttacherInterceptor implements NestInterceptor {
     } else {
       throw new BadRequestException("blog id header missing")
     }
-    return next.handle();
+    return true;
   }
+
 }

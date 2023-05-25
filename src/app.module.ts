@@ -10,6 +10,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { CurrentBlogModule } from './current-blog/current-blog.module';
+import { CategoriesModule } from './modules/categories/categories.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { CurrentBlogModule } from './current-blog/current-blog.module';
     PrismaModule,
     AuthModule,
     CurrentBlogModule,
+    CategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

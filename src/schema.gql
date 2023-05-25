@@ -7,6 +7,39 @@ type Blog {
   username: String!
 }
 
+type Category {
+  id: String!
+  title: String!
+}
+
+type PaginatedCategories {
+  total: Int!
+  data: [Category!]!
+}
+
 type Query {
   blog: Blog!
+  category(id: String!): Category!
+  categories(input: SearchCategoryInput!): PaginatedCategories!
+}
+
+input SearchCategoryInput {
+  limit: Int! = 16
+  skip: Int! = 0
+  text: String
+}
+
+type Mutation {
+  createCategory(input: CreateCategoryInput!): Category!
+  deleteCategory(id: String!): Boolean!
+  updateCategory(input: UpdateCategoryInput!): Boolean!
+}
+
+input CreateCategoryInput {
+  title: String!
+}
+
+input UpdateCategoryInput {
+  title: String!
+  id: String!
 }

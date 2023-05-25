@@ -4,7 +4,8 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
+  provider        = "prisma-client-js"
 }
 
 model Blog {
@@ -25,6 +26,7 @@ model Category {
   Post   Post[]
 
   @@id([id, blogId])
+  @@fulltext([title])
 }
 
 model Post {
