@@ -1,4 +1,6 @@
 import { Field, ObjectType } from "@nestjs/graphql";
+import { PaginatedPosts } from "../posts/paginated-posts.model";
+import { Post } from "../posts/post.model";
 
 @ObjectType()
 export class Category {
@@ -7,4 +9,7 @@ export class Category {
 
   @Field()
   title: string;
+
+  @Field(() => PaginatedPosts)
+  posts: PaginatedPosts
 }

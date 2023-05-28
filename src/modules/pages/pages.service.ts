@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Blog, PrismaClient } from '@prisma/client';
+import { Blog } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Pagination } from 'src/utils/pagination.input';
+import { withPagination } from 'src/utils';
 import { CreatePageInput } from './dto/create-page.input';
 import { SearchPageInput } from './dto/search-page.input';
 import { UpdatePageInput } from './dto/update-page.input';
@@ -59,17 +59,4 @@ export class PagesService {
 
 }
 
-export async function withPagination<T, K>(prisma: PrismaClient, model: string, query: K, pagination: Pagination) {
-  const [total, data] = await prisma.$transaction([
-    prisma[model].count(query),
-    prisma[model].findMany({
-      ...query,
-      skip: pagination.skip,
-      take: pagination.limit,
-    }),
-  ]);
-  return {
-    total,
-    data,
-  }
-}
+

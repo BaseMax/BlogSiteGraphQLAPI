@@ -1,6 +1,7 @@
-import { UseGuards, UseInterceptors } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
+import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { AuthGuard } from '../auth/auth.guard';
+import { CategoryPosts } from './dto/category-posts.input';
 import { WriteGuard } from '../auth/write/write.guard';
 import { BlogAttacherInterceptor } from '../blogs/blog-attacher/blog-attacher.interceptor';
 import { CategoriesService } from './categories.service';
@@ -9,11 +10,12 @@ import { CreateCategoryInput } from './dto/create-category.input';
 import { SearchCategoryInput } from './dto/search-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { PaginatedCategories } from './paginated-categories.model';
+import { PostsService } from '../posts/posts.service';
 
 @UseGuards(BlogAttacherInterceptor)
-@Resolver()
+@Resolver(() => Category)
 export class CategoriesResolver {
-  constructor(private service: CategoriesService) { }
+  constructor(private service: CategoriesService, private postsService: PostsService) { }
   @UseGuards(AuthGuard, WriteGuard)
   @Mutation(() => Category)
   public async createCategory(@Args('input') input: CreateCategoryInput) {
@@ -37,5 +39,9 @@ export class CategoriesResolver {
   @Query(() => PaginatedCategories)
   public async categories(@Args("input") input: SearchCategoryInput) {
     return this.service.search(input);
+  }
+  @ResolveField()
+  public async posts(@Args("input") input: CategoryPosts, @Parent() category: Category) {
+    return this.postsService.search({ ...input, categoryId: category.id })
   }
 }

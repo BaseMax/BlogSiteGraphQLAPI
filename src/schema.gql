@@ -7,9 +7,28 @@ type Blog {
   username: String!
 }
 
+type Post {
+  id: String!
+  title: String!
+  content: String!
+  category: Category!
+}
+
+type PaginatedPosts {
+  total: Int!
+  data: [Post!]!
+}
+
 type Category {
   id: String!
   title: String!
+  posts(input: CategoryPosts!): PaginatedPosts!
+}
+
+input CategoryPosts {
+  limit: Int! = 16
+  skip: Int! = 0
+  text: String
 }
 
 type PaginatedCategories {
@@ -32,6 +51,8 @@ type Query {
   blog: Blog!
   category(id: String!): Category!
   categories(input: SearchCategoryInput!): PaginatedCategories!
+  post(id: String!): Post!
+  posts(input: SearchPostInput!): PaginatedPosts!
   page(id: String!): Page!
   pages(input: SearchPageInput!): PaginatedPages!
 }
@@ -40,6 +61,13 @@ input SearchCategoryInput {
   limit: Int! = 16
   skip: Int! = 0
   text: String
+}
+
+input SearchPostInput {
+  limit: Int! = 16
+  skip: Int! = 0
+  text: String
+  categoryId: ID
 }
 
 input SearchPageInput {
@@ -52,6 +80,9 @@ type Mutation {
   createCategory(input: CreateCategoryInput!): Category!
   deleteCategory(id: String!): Boolean!
   updateCategory(input: UpdateCategoryInput!): Category!
+  createPost(input: CreatePostInput!): Post!
+  deletePost(id: String!): Boolean!
+  updatePost(input: UpdatePostInput!): Post!
   createPage(input: CreatePageInput!): Page!
   deletePage(id: String!): Boolean!
   updatePage(input: UpdatePageInput!): Page!
@@ -63,6 +94,19 @@ input CreateCategoryInput {
 
 input UpdateCategoryInput {
   title: String!
+  id: String!
+}
+
+input CreatePostInput {
+  title: String!
+  content: String!
+  categoryId: ID!
+}
+
+input UpdatePostInput {
+  title: String
+  content: String
+  categoryId: ID
   id: String!
 }
 

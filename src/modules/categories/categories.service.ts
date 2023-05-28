@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Blog, PrismaClient } from '@prisma/client';
+import { Blog } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Pagination } from 'src/utils/pagination.input';
+import { withPagination } from 'src/utils';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { SearchCategoryInput } from './dto/search-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
@@ -21,7 +21,7 @@ export class CategoriesService {
       },
       data: {
         title: input.title,
-        
+
       }
     });
   }
@@ -58,17 +58,3 @@ export class CategoriesService {
 
 }
 
-export async function withPagination<T, K>(prisma: PrismaClient, model: string, query: K, pagination: Pagination) {
-  const [total, data] = await prisma.$transaction([
-    prisma[model].count(query),
-    prisma[model].findMany({
-      ...query,
-      skip: pagination.skip,
-      take: pagination.limit,
-    }),
-  ]);
-  return {
-    total,
-    data,
-  }
-}

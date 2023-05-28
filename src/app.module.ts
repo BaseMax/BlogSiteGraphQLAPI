@@ -12,6 +12,7 @@ import { ConfigModule } from '@nestjs/config';
 import { CurrentBlogModule } from './current-blog/current-blog.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { PagesModule } from './modules/pages/pages.module';
+import { PostsModule } from './modules/posts/posts.module';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { PagesModule } from './modules/pages/pages.module';
     AuthModule,
     CurrentBlogModule,
     CategoriesModule,
-    PagesModule
+    PagesModule,
+    PostsModule
   ],
   controllers: [AppController],
   providers: [AppService],
