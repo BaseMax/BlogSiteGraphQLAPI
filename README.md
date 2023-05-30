@@ -1,4 +1,4 @@
-# RestaurantGraphqlApi
+# BlogSiteGraphQLAPI
 
 This project is a GraphQL API that implements a blog system. Each blog has its own dedicated username and id and has its own posts, categories, and pages. Blogs are completely separated from each other.
 
@@ -238,15 +238,15 @@ This project is built using NestJS, TypeScript, MySQL, and Prisma.
 To use this project, follow these steps:
 
 1. Clone this repository:
-   ````
+   ```
    git clone https://github.com/basemax/RestaurantGraphqlApi
    ```
 2. Install dependencies:
-   ````
+   ```
    npm install
    ```
 3. Create an admin account:
-   ````
+   ```
    npx nest start --entryFile create-admin.js
    ```
    It will prompt you for an email, password, and name to create the superuser account.
