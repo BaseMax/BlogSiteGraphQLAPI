@@ -1,4 +1,8 @@
 # BlogSiteGraphQLAPI
+![image](https://github.com/BaseMax/BlogSiteGraphQLAPI/assets/51885828/fd4f8f93-0df4-4b69-8588-1b9eb53114ed)
+![image](https://github.com/BaseMax/BlogSiteGraphQLAPI/assets/51885828/e1c17a19-81a4-4223-9c0d-3c2ad4ac4be4)
+![image](https://github.com/BaseMax/BlogSiteGraphQLAPI/assets/51885828/8508a435-1d65-47a3-ad86-41f47cf33f49)
+
 
 This project is a GraphQL API that implements a blog system. Each blog has its own dedicated username and id and has its own posts, categories, and pages. Blogs are completely separated from each other.
 
