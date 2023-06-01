@@ -6,9 +6,14 @@ The login and registration phases are done using a REST API. The whole authentic
 
 ## Demo
 
+![BlogSite GraphQL API](https://github.com/BaseMax/BlogSiteGraphQLAPI/assets/2658040/98421bd2-6744-4655-8b8b-daafb35af3ff)
+![BlogSite GraphQL API](https://github.com/BaseMax/BlogSiteGraphQLAPI/assets/2658040/31ed8b78-fb3e-40bd-95af-572a6329ef6c)
+
+<!--
 ![BlogSite GraphQL API](https://github.com/BaseMax/BlogSiteGraphQLAPI/assets/51885828/fd4f8f93-0df4-4b69-8588-1b9eb53114ed)
 ![BlogSite GraphQL API](https://github.com/BaseMax/BlogSiteGraphQLAPI/assets/51885828/e1c17a19-81a4-4223-9c0d-3c2ad4ac4be4)
 ![BlogSite GraphQL API](https://github.com/BaseMax/BlogSiteGraphQLAPI/assets/51885828/8508a435-1d65-47a3-ad86-41f47cf33f49)
+-->
 
 ------------
 
