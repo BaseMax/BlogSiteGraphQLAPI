@@ -1,14 +1,19 @@
 # BlogSiteGraphQLAPI
-![image](https://github.com/BaseMax/BlogSiteGraphQLAPI/assets/51885828/fd4f8f93-0df4-4b69-8588-1b9eb53114ed)
-![image](https://github.com/BaseMax/BlogSiteGraphQLAPI/assets/51885828/e1c17a19-81a4-4223-9c0d-3c2ad4ac4be4)
-![image](https://github.com/BaseMax/BlogSiteGraphQLAPI/assets/51885828/8508a435-1d65-47a3-ad86-41f47cf33f49)
-
 
 This project is a GraphQL API that implements a blog system. Each blog has its own dedicated username and id and has its own posts, categories, and pages. Blogs are completely separated from each other.
 
 The login and registration phases are done using a REST API. The whole authentication mechanism in the GraphQL system is implemented using an Authorization header (with a JWT Bearer token). For the user to use the GraphQL API, they must use a Blogid header, which indicates the blog that is currently in use. If the authentication header's user matches with the blog owner or the user is an admin, they are allowed to run mutations. Register and login parts require two fields as post data: username, password.
 
+## Demo
+
+![BlogSite GraphQL API](https://github.com/BaseMax/BlogSiteGraphQLAPI/assets/51885828/fd4f8f93-0df4-4b69-8588-1b9eb53114ed)
+![BlogSite GraphQL API](https://github.com/BaseMax/BlogSiteGraphQLAPI/assets/51885828/e1c17a19-81a4-4223-9c0d-3c2ad4ac4be4)
+![BlogSite GraphQL API](https://github.com/BaseMax/BlogSiteGraphQLAPI/assets/51885828/8508a435-1d65-47a3-ad86-41f47cf33f49)
+
+------------
+
 The REST API's endpoints for authentication are:
+
 - POST /auth/login
 - POST /auth/register
 - GET /auth/me
@@ -16,6 +21,7 @@ The REST API's endpoints for authentication are:
 For the register response, the same structure as login response is used. For /auth/me, we only have a response.
 
 ## Authentication
+
 Here are some sample requests with curl:
 
 ### Login
