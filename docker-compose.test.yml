@@ -1,3 +1,5 @@
+
+
 version: "3.6"
 services:
     app:
@@ -10,23 +12,30 @@ services:
         volumes:
             - ./src:/app/src
             - ./prisma:/app/prisma
+        command:
+          [
+            "yarn",
+            "test:e2e",
+          ]
         ports:
             - 3000:3000
-        command:
-            ["yarn", "test:e2e" ,"--runInBand"]
         environment:
-            - DATABASE_URL=postgres://postgres:postgres@db:5432/test
+            - DATABASE_URL=mysql://root:example@db:3306/dev
             - NODE_ENV=testing
             - SECRET=secret
+
     db:
-        image: postgres:14
-        ports:
-            - 5432:5432
-        restart: always
-        environment:
-            POSTGRES_PASSWORD: postgres
-            POSTGRES_USER: postgres
-            POSTGRES_DB: test
+       image: mysql
+       # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+       # (this is just an example, not intended to be a production configuration)
+       command: --default-authentication-plugin=mysql_native_password
+       restart: always
+       ports:
+           - 3306:3306
+       environment:
+         MYSQL_ROOT_PASSWORD: example
+         MYSQL_DATABASE: dev
+         MYSQL_ROOT_HOST: '%' 
     migratedb:
         image: app:latest
         command:
@@ -40,7 +49,7 @@ services:
                 "deploy",
             ]
         environment:
-            - DATABASE_URL=postgres://postgres:postgres@db:5432/test
+            - DATABASE_URL=mysql://root:example@db:3306/dev
         build:
             context: .
             target: development
